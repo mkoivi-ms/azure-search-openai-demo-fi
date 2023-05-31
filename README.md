@@ -5,10 +5,11 @@
 
 Tämä projekti sisältää suomenkielisen version ChatGPT-keskustelubotista yhdistettynä organisaation omaan dataan Azure Cognitive Search-hakukonetta käyttäen. Tässä projektissa hakuindeksointi ja OpenAI prompt on kofiguroitu suomen kielelle.
 Asenna demoympäristö omaan Azure-tilaukseesi alla olevia ohjeita käyttäen.
+
 Voit muokata demon sisältöä seuraavasti:
--korvaa data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
--korvaa etusivun tekstit tiedostossa app/frontend/src/pages/chat/Chat.tsx
--korvaa esimerkkikysymykset tiedostossa app/frontend/src/components/Example/ExampleList.tsx
+* korvaa data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
+* korvaa etusivun tekstit tiedostossa app/frontend/src/pages/chat/Chat.tsx
+* korvaa esimerkkikysymykset tiedostossa app/frontend/src/components/Example/ExampleList.tsx
 
 ---
 
