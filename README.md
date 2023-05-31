@@ -8,6 +8,7 @@ Asenna demoympäristö omaan Azure-tilaukseesi alla olevia ohjeita käyttäen.
 
 Voit muokata demon sisältöä seuraavasti:
 * korvaa data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
+* korvaa tiedostossa app/backend/approaches/chatreadretrieveread.py OpenAI:n promptien aiherajaukset, riveillä 12, 24 ja 29.
 * korvaa etusivun tekstit tiedostossa app/frontend/src/pages/chat/Chat.tsx
 * korvaa esimerkkikysymykset tiedostossa app/frontend/src/components/Example/ExampleList.tsx
 
