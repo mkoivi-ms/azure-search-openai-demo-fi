@@ -3,6 +3,7 @@
 <a href='https://codespaces.new/mkoivi-ms/azure-search-openai-demo-fi'><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
 
 Tämä projekti sisältää suomenkielisen version ChatGPT-keskustelubotista yhdistettynä organisaation omaan dataan Azure Cognitive Search-hakukonetta käyttäen. Tässä projektissa hakuindeksointi ja OpenAI prompt on kofiguroitu suomen kielelle. Demo sisältää oletuksena terveydenhuollon hoitosuosituksia.
+
 Asenna demoympäristö omaan Azure-tilaukseesi alla olevia ohjeita käyttäen.
 
 Voit muokata demon sisältöä seuraavasti:
@@ -10,7 +11,6 @@ Voit muokata demon sisältöä seuraavasti:
 * korvaa tiedostossa app/backend/approaches/chatreadretrieveread.py OpenAI:n promptien aiherajaukset, riveillä 12, 24 ja 29.
 * korvaa etusivun tekstit tiedostossa app/frontend/src/pages/chat/Chat.tsx
 * korvaa esimerkkikysymykset tiedostossa app/frontend/src/components/Example/ExampleList.tsx
-
 
 
 ---
@@ -50,9 +50,9 @@ The repo includes sample data so it's ready to try end to end. In this sample ap
 
 >NOTE: Your Azure Account must have `Microsoft.Authorization/roleAssignments/write` permissions, such as [User Access Administrator](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator) or [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner).  
 
-#### To Run in GitHub Codespaces or VS Code Remote Containers
+#### To Run in GitHub Codespaces 
 
-You can run this repo virtually by using GitHub Codespaces or VS Code Remote Containers.  Click on one of the buttons below to open this repo in one of those options.
+You can run this repo virtually by using GitHub Codespaces.  Click on one of the buttons below to open this repo in one of those options.
 <a href='https://codespaces.new/mkoivi-ms/azure-search-openai-demo-fi'><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
 
 ### Installation
@@ -61,8 +61,7 @@ You can run this repo virtually by using GitHub Codespaces or VS Code Remote Con
 
 1. Create a new folder and switch to it in the terminal
 1. Run `azd auth login`
-1. Run `azd init -t azure-search-openai-demo`
-    * For the target location, the regions that currently support the models used in this sample are **East US** or **South Central US**. For an up-to-date list of regions and models, check [here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/models)
+1. Run `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi`
 
 #### Starting from scratch:
 
@@ -100,7 +99,7 @@ It will look like the following:
 Run the following if you want to give someone else access to completely deployed and existing environment.
 
 1. Install the [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)
-1. Run `azd init -t azure-search-openai-demo`
+1. Run `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi`
 1. Run `azd env refresh -e {environment name}` - Note that they will need the azd environment name, subscription Id, and location to run this command - you can find those values in your `./azure/{env name}/.env` file.  This will populate their azd environment's .env file with all the settings needed to run the app locally.
 1. Run `pwsh ./scripts/roles.ps1` - This will assign all of the necessary roles to the user so they can run the app locally.  If they do not have the necessary permission to create roles in the subscription, then you may need to run this script for them. Just be sure to set the `AZURE_PRINCIPAL_ID` environment variable in the azd .env file or in the active shell to their Azure Id, which they can get with `az account show`.
 
