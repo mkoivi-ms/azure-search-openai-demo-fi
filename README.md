@@ -11,7 +11,7 @@ Asennus (pikaohjeet, alla teknisemmät):
 5. Aja Codespacen terminaalissa `azd auth login` ja kirjaudu Azureen
 6. Aja `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi` ja anna projektille nimi. Nimeä käytetään Azuren resource groupin nimeämisessä
 7. Aja `azd up`, valitse edellä mainittu Azure-tilaus ja region. Esim West Europe sisältää GPT 3.5-turbo-mallin.
-8. Asennus ja sokumenttien indeksointi alkaa ja voi kestää jopa tunnin.
+8. Asennus ja dokumenttien indeksointi alkaa (voi kestää jopa tunnin).
 
 Voit muokata demon sisältöä seuraavasti:
 * korvaa data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
