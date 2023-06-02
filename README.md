@@ -4,7 +4,16 @@
 
 Tämä projekti sisältää suomenkielisen version ChatGPT-keskustelubotista yhdistettynä organisaation omaan dataan Azure Cognitive Search-hakukonetta käyttäen. Tässä projektissa hakuindeksointi ja OpenAI prompt on kofiguroitu suomen kielelle. Demo sisältää oletuksena terveydenhuollon hoitosuosituksia.
 
-Asenna demoympäristö omaan Azure-tilaukseesi alla olevia ohjeita käyttäen.
+
+Asennus (pikaohjeet, alla teknisemmät):
+1. Varmista että sinulla on käytössäsi Azure-tilaus (subscription) ja sinulla on siihen Owner- tai Contributor & User Access Administrator-oikeudet
+2. Varmista ko. Azure-tilaukselle että on hyväksytty OpenAI-käyttöoikeus (hakulomake https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUOFA5Qk1UWDRBMjg0WFhPMkIzTzhKQ1dWNyQlQCN0PWcu)
+3. Käynnistä asennus GitHub Codespacessa <a href='https://codespaces.new/mkoivi-ms/azure-search-openai-demo-fi'><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
+4. Odota noin 15 minuuttia Codespacen luontia
+5. Aja terminaalissa `azd auth login` ja kirjaudu Azureen
+6. Aja `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi` ja anna projektille nimi. Nimeä käytetään Azuren resource groupin nimeämisessä
+7. Aja `azd up`, valitse edellä mainittu Azure-tilaus ja region. Esim West Europe sisältää GPT 3.5-turbo-mallin.
+8. Asennus ja sokumenttien indeksointi alkaa ja voi kestää jopa tunnin.
 
 Voit muokata demon sisältöä seuraavasti:
 * korvaa data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
