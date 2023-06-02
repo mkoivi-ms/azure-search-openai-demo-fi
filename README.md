@@ -10,9 +10,10 @@ Asennus (pikaohjeet, alla teknisemmät):
 4. Odota noin 15 minuuttia Codespacen luontia
 5. Aja Codespacen terminaalissa `azd auth login` ja kirjaudu Azureen
 6. Aja `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi` ja anna projektille nimi. Nimeä käytetään Azuren resource groupin nimeämisessä
-7. Aja `azd up`, valitse edellä mainittu Azure-tilaus ja region. Esim West Europe sisältää GPT 3.5-turbo-mallin.
-8. Asennus ja dokumenttien indeksointi alkaa (voi kestää jopa tunnin).
-9. Jos asennus onnistuu, sovelluksen URL näkyy asennuslogin lopussa: 
+7. Jos haluat muokata demon sisältöä, se on kätevintä tehdä tässä kohtaa. Katso ohjeet seuraavassa kappaleessa.
+8. Aja `azd up`, valitse edellä mainittu Azure-tilaus ja region. Esim West Europe sisältää GPT 3.5-turbo-mallin.
+9. Asennus ja dokumenttien indeksointi alkaa (voi kestää jopa tunnin).
+10. Jos asennus onnistuu, sovelluksen URL näkyy asennuslogin lopussa: 
 !['Output from running azd up'](assets/endpoint.png)
 
 
