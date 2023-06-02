@@ -17,6 +17,7 @@ Tämä projekti sisältää suomenkielisen version ChatGPT-keskustelubotista yhd
 !['Output from running azd up'](assets/endpoint.png)
 
 
+
 ### Voit muokata demon sisältöä seuraavasti:
 * chatbotin pohjamateriaalin voi korvata GitHub Codespacessa vaihtamalla data-hakemistossa oleva sisältö omilla dokumenteilla (katso Cognitive Searchin dokumentaatio tuetuista tiedostomuodoista)
     * indeksoi sen jälkeen uusi materiaali komennolla `azd provision`
