@@ -11,7 +11,7 @@ Tämä projekti sisältää suomenkielisen version ChatGPT-keskustelubotista yhd
 1. Käynnistä asennus GitHub Codespacessa: <a href='https://codespaces.new/mkoivi-ms/azure-search-openai-demo-fi'><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
 2. Odota noin 15 minuuttia Codespacen luontia
 3. Aja Codespacen terminaalissa `azd auth login` ja kirjaudu Azureen
-4. Aja `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi` ja anna projektille nimi. Nimeä käytetään Azuren resource groupin nimeämisessä
+4. Aja `azd init -t https://github.com/mkoivi-ms/azure-search-openai-demo-fi` ja anna projektille nimi. Nimeä käytetään Azuren resurssiryhmän nimeämisessä
 5. Jos haluat muokata demon sisältöä, se on kätevintä tehdä tässä kohtaa. Katso ohjeet seuraavassa kappaleessa.
 6. Aja `azd up`, valitse edellä mainittu Azure-tilaus ja region. Esim West Europe sisältää tämän kiihdyttimen käyttämän GPT 3.5-turbo-mallin.
 7. Asennus ja dokumenttien indeksointi alkaa (voi kestää jopa tunnin).
