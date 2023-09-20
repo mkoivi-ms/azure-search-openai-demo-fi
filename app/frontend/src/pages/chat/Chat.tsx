@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
-import { Checkbox, Panel, DefaultButton, TextField, SpinButton } from "@fluentui/react";
+import { Checkbox, Panel, DefaultButton, TextField, SpinButton, Dropdown, IDropdownOption } from "@fluentui/react";
 import { SparkleFilled } from "@fluentui/react-icons";
+import readNDJSONStream from "ndjson-readablestream";
 
 import styles from "./Chat.module.css";
 
-import { chatApi, Approaches, AskResponse, ChatRequest, ChatTurn } from "../../api";
+import { chatApi, RetrievalMode, Approaches, AskResponse, ChatRequest, ChatTurn } from "../../api";
 import { Answer, AnswerError, AnswerLoading } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ExampleList } from "../../components/Example";
@@ -17,7 +18,9 @@ const Chat = () => {
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false);
     const [promptTemplate, setPromptTemplate] = useState<string>("");
     const [retrieveCount, setRetrieveCount] = useState<number>(3);
+    const [retrievalMode, setRetrievalMode] = useState<RetrievalMode>(RetrievalMode.Hybrid);
     const [useSemanticRanker, setUseSemanticRanker] = useState<boolean>(true);
+    const [shouldStream, setShouldStream] = useState<boolean>(true);
     const [useSemanticCaptions, setUseSemanticCaptions] = useState<boolean>(false);
     const [excludeCategory, setExcludeCategory] = useState<string>("");
     const [useSuggestFollowupQuestions, setUseSuggestFollowupQuestions] = useState<boolean>(false);
@@ -47,17 +50,42 @@ const Chat = () => {
             const request: ChatRequest = {
                 history: [...history, { user: question, bot: undefined }],
                 approach: Approaches.ReadRetrieveRead,
+                shouldStream: shouldStream,
                 overrides: {
                     promptTemplate: promptTemplate.length === 0 ? undefined : promptTemplate,
                     excludeCategory: excludeCategory.length === 0 ? undefined : excludeCategory,
                     top: retrieveCount,
+                    retrievalMode: retrievalMode,
                     semanticRanker: useSemanticRanker,
                     semanticCaptions: useSemanticCaptions,
-                    suggestFollowupQuestions: useSuggestFollowupQuestions
+                    suggestFollowupQuestions: useSuggestFollowupQuestions,
                 }
             };
-            const result = await chatApi(request);
-            setAnswers([...answers, [question, result]]);
+
+            const response = await chatApi(request);
+            if (!response.body) {
+                throw Error("No response body");
+            }
+            if (shouldStream) {
+                let answer: string = '';
+                let askResponse: AskResponse = {} as AskResponse;
+                for await (const event of readNDJSONStream(response.body)) {
+                    if (event["data_points"]) {
+                        askResponse = event;
+                    } else if (event["choices"] && event["choices"][0]["delta"]["content"]) {
+                        answer += event["choices"][0]["delta"]["content"];
+                        let latestResponse: AskResponse = {...askResponse, answer: answer};
+                        setIsLoading(false);
+                        setAnswers([...answers, [question, latestResponse]]);
+                    }
+                }
+            } else {
+                const parsedResponse: AskResponse = await response.json();
+                if (response.status > 299 || !response.ok) {
+                    throw Error(parsedResponse.error || "Unknown error");
+                }
+                setAnswers([...answers, [question, parsedResponse]]);
+            }
         } catch (e) {
             setError(e);
         } finally {
@@ -83,12 +111,20 @@ const Chat = () => {
         setRetrieveCount(parseInt(newValue || "3"));
     };
 
+    const onRetrievalModeChange = (_ev: React.FormEvent<HTMLDivElement>, option?: IDropdownOption<RetrievalMode> | undefined, index?: number | undefined) => {
+        setRetrievalMode(option?.data || RetrievalMode.Hybrid);
+    };
+
     const onUseSemanticRankerChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
         setUseSemanticRanker(!!checked);
     };
 
     const onUseSemanticCaptionsChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
         setUseSemanticCaptions(!!checked);
+    };
+
+    const onShouldStreamChange = (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => {
+        setShouldStream(!!checked);
     };
 
     const onExcludeCategoryChanged = (_ev?: React.FormEvent, newValue?: string) => {
@@ -221,7 +257,7 @@ const Chat = () => {
 
                     <SpinButton
                         className={styles.chatSettingsSeparator}
-                        label="Retrieve this many documents from search:"
+                        label="Retrieve this many search results:"
                         min={1}
                         max={50}
                         defaultValue={retrieveCount.toString()}
@@ -246,6 +282,23 @@ const Chat = () => {
                         checked={useSuggestFollowupQuestions}
                         label="Suggest follow-up questions"
                         onChange={onUseSuggestFollowupQuestionsChange}
+                    />
+                    <Dropdown
+                        className={styles.chatSettingsSeparator}
+                        label="Retrieval mode"
+                        options={[
+                            { key: "hybrid", text: "Vectors + Text (Hybrid)", selected: retrievalMode == RetrievalMode.Hybrid, data: RetrievalMode.Hybrid },
+                            { key: "vectors", text: "Vectors", selected: retrievalMode == RetrievalMode.Vectors, data: RetrievalMode.Vectors },
+                            { key: "text", text: "Text", selected: retrievalMode == RetrievalMode.Text, data: RetrievalMode.Text }
+                        ]}
+                        required
+                        onChange={onRetrievalModeChange}
+                    />
+                    <Checkbox
+                        className={styles.chatSettingsSeparator}
+                        checked={shouldStream}
+                        label="Stream chat completion responses"
+                        onChange={onShouldStreamChange}
                     />
                 </Panel>
             </div>
